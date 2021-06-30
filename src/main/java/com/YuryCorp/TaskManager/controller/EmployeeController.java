@@ -42,12 +42,17 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee create(@RequestBody Employee employee) {
-        return employeeService.create(employee);
+    public Employee create(@RequestBody Employee employee, String projectId) {
+        return employeeService.create(employee, projectId);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id) {
         employeeService.delete(id);
+    }
+
+    @GetMapping("/count")
+    public long getCountOfEmployees(){
+        return employeeService.countOfEmployees();
     }
 }

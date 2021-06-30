@@ -12,7 +12,9 @@ public interface EmployeeService {
 
     Employee getById(String id);
 
-    Employee create(Employee employee);
+    Employee create(Employee employee, String projectId);
 
     void delete(String id);
+
+    long countOfEmployees();
 }
