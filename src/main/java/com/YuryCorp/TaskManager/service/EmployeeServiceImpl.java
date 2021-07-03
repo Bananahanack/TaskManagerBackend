@@ -1,5 +1,6 @@
 package com.YuryCorp.TaskManager.service;
 
+import com.YuryCorp.TaskManager.dto.EmployeeDto;
 import com.YuryCorp.TaskManager.model.Employee;
 import com.YuryCorp.TaskManager.repository.EmployeeRepository;
 import com.YuryCorp.TaskManager.repository.ProjectRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link EmployeeService}.
@@ -27,21 +29,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getAll() {
+        return employeeRepository.findAll().stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Employee getById(String id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+    public EmployeeDto getById(String id) {
+         return employeeRepository.findById(id).map(this::entityToDto)
+                .orElseThrow(()-> new RuntimeException("EMPLOYEE by this ID doesn't exist!!!"));
     }
 
     @Override
-    public Employee create(Employee employee, String projectId) {
-        employee.setProject(projectRepository.findById(projectId)
-                .orElseThrow(RuntimeException::new));
-        return employeeRepository.save(employee);
+    public EmployeeDto create(Employee employee) {
+//        employee.setProject(projectRepository.findById(projectId)
+//                .orElseThrow(RuntimeException::new));
+//        return employeeRepository.save(employee);
+
+
+        return entityToDto(employeeRepository.save(employee));
     }
 
     @Override
@@ -54,44 +61,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.count();
     }
 
-/*    @PostConstruct
-    public void populateTestData() {
-        if (projectRepository.count() == 0) {
-            projectRepository.saveAll(
-                    Stream.of("Path-Way Electronics;Electronics project", "E-Tech;E-Tech project", "Path-E-Tech;Path-E-Tech project")
-                            .map(sStr-> {
-                                String[] split = sStr.split(";");
-                                Project project = new Project();
-                                project.setName(split[0]);
-                                project.setDescription(split[1]);
-                                return project;
-                            })
-                            .collect(Collectors.toList()));
-        }
+    private EmployeeDto entityToDto(Employee employee){
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(employee.getId());
+        employeeDto.setFirstName(employee.getFirstName());
+        employeeDto.setLastName(employee.getLastName());
+        employeeDto.setEmail(employee.getEmail());
+        employeeDto.setPosition(employee.getPosition());
+        return employeeDto;
+    }
 
-        if (employeeRepository.count() == 0) {
-            Random rand = new Random(0);
-            List<Project> projects = projectRepository.findAll();
-            List<String> positions = Stream.of("junior", "middle", "senior", "architect").collect(Collectors.toList());
-            employeeRepository.saveAll(
-                    Stream.of("Gabrielle Patel", "Brian Robinson", "Eduardo Haugen",
-                            "Koen Johansen", "Alejandro Macdonald", "Angel Karlsson", "Yahir Gustavsson", "Haiden Svensson",
-                            "Emily Stewart", "Corinne Davis", "Ryann Davis", "Yurem Jackson", "Kelly Gustavsson",
-                            "Eileen Walker", "Katelyn Martin", "Israel Carlsson", "Quinn Hansson", "Makena Smith",
-                            "Danielle Watson", "Leland Harris", "Gunner Karlsen", "Jamar Olsson", "Lara Martin",
-                            "Ann Andersson", "Remington Andersson", "Rene Carlsson", "Elvis Olsen", "Solomon Olsen",
-                            "Jaydan Jackson", "Bernard Nilsen")
-                            .map(sStr -> {
-                                String[] split = sStr.split(" ");
-                                Employee employee = new Employee();
-                                employee.setFirstName(split[0]);
-                                employee.setLastName(split[1]);
-                                employee.setProject(projects.get(rand.nextInt(projects.size())));
-                                String email = (employee.getFirstName() + "." + employee.getLastName() + "@" + employee.getProject().getName().replaceAll("[\\s-]", "") + ".com").toLowerCase();
-                                employee.setEmail(email);
-                                employee.setPosition(positions.get(rand.nextInt(positions.size())));
-                                return employee;
-                            }).collect(Collectors.toList()));
-        }
-    }*/
+    private Employee dtoToEntity(EmployeeDto employeeDto){
+        Employee employee = new Employee();
+        employee.setLastName(employeeDto.getLastName());
+        employee.setFirstName(employeeDto.getFirstName());
+        employee.setEmail(employeeDto.getEmail());
+        employee.setPosition(employeeDto.getPosition());
+        return employee;
+    }
+
 }

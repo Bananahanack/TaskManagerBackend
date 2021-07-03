@@ -37,7 +37,7 @@ public class Task extends AbstractEntity {
     @JsonIgnore
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     @JsonIgnore
     private Project project;

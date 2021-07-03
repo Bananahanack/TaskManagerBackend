@@ -34,7 +34,7 @@ public class Employee extends AbstractEntity{
     @NotEmpty
     private String position;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     @JsonIgnore
     private Project project;

@@ -1,5 +1,6 @@
 package com.YuryCorp.TaskManager.controller;
 
+import com.YuryCorp.TaskManager.dto.EmployeeDto;
 import com.YuryCorp.TaskManager.model.Employee;
 import com.YuryCorp.TaskManager.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,18 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
+    public List<EmployeeDto> getAll() {
         return employeeService.getAll();
     }
 
     @GetMapping("{id}")
-    public Employee get(@PathVariable String id) {
+    public EmployeeDto get(@PathVariable String id) {
         return employeeService.getById(id);
     }
 
     @PostMapping
-    public Employee create(@RequestBody Employee employee, String projectId) {
-        return employeeService.create(employee, projectId);
+    public EmployeeDto create(@RequestBody Employee employee) {
+        return employeeService.create(employee);
     }
 
     @DeleteMapping("{id}")
