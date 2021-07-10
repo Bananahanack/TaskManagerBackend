@@ -19,6 +19,7 @@ import java.util.List;
 public class Project extends AbstractEntity{
     @NotNull
     @NotEmpty
+    @Column(unique = true)
     private String name;
 
     private String description;

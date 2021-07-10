@@ -5,6 +5,7 @@ import com.YuryCorp.TaskManager.model.Employee;
 import com.YuryCorp.TaskManager.repository.EmployeeRepository;
 import com.YuryCorp.TaskManager.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,18 +38,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getById(String id) {
-         return employeeRepository.findById(id).map(this::entityToDto)
-                .orElseThrow(()-> new RuntimeException("EMPLOYEE by this ID doesn't exist!!!"));
+            return employeeRepository.findById(id).map(this::entityToDto)
+                    .orElseThrow(() -> new RuntimeException("Can't get the Employee by id(" + id + ")"));
+
     }
 
     @Override
-    public EmployeeDto create(Employee employee) {
-//        employee.setProject(projectRepository.findById(projectId)
-//                .orElseThrow(RuntimeException::new));
-//        return employeeRepository.save(employee);
+    public EmployeeDto create(EmployeeDto employeeDto) {
+            return entityToDto(employeeRepository.save(dtoToEntity(employeeDto)));
 
-
-        return entityToDto(employeeRepository.save(employee));
+//        return null;
+/*        employee.setProject(projectRepository.findById(projectId)
+                .orElseThrow(()->new RuntimeException);
+        return employeeRepository.save(employee);*/
+        /*ErrorHandler errorHandler = new ErrorHandler();
+        return errorHandler.process(()->entityToDto(employeeRepository.save(employee)));*/
+//        try {
+//            return entityToDto(employeeRepository.save(employee));
+//        }catch (ConstraintViolationException exception){
+//            exception.getMessage();
+//        }
     }
 
     @Override
@@ -61,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.count();
     }
 
+    //region DTO methods
     private EmployeeDto entityToDto(Employee employee){
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setId(employee.getId());
@@ -79,5 +89,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPosition(employeeDto.getPosition());
         return employee;
     }
+    //endregion
 
 }

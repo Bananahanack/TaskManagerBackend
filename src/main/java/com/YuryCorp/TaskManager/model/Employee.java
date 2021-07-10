@@ -28,6 +28,7 @@ public class Employee extends AbstractEntity{
     @Email
     @NotNull
     @NotEmpty
+    @Column(unique = true)
     private String email;
 
     @NotNull
