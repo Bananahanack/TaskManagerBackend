@@ -56,13 +56,10 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto employeeDto) {
-        EmployeeDto dto = employeeService.create(employeeDto);
-
-        if(dto == null){
+        if(employeeDto == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
-
+        return new ResponseEntity<>(employeeService.create(employeeDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
