@@ -1,13 +1,10 @@
 package com.YuryCorp.TaskManager.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,11 +14,11 @@ import java.util.List;
  */
 @Entity
 public class Project extends AbstractEntity{
-    @NotNull
-    @NotEmpty
-    @Column(unique = true)
+    @NotEmpty(message = "The 'PROJECTNAME' field cannot be empty or null!")
+    @Column(name = "name", unique = true)
     private String name;
 
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)

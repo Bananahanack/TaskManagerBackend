@@ -1,7 +1,6 @@
 package com.YuryCorp.TaskManager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,24 +14,21 @@ import java.util.List;
  */
 @Entity
 public class Employee extends AbstractEntity{
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = "The 'LASTNAME' field cannot be empty or null!")
     @Column(name = "last_name")
     private String lastName;
 
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = "The 'FIRSTNAME' field cannot be empty or null!")
     @Column(name = "first_name")
     private String firstName;
 
     @Email
-    @NotNull
-    @NotEmpty
-    @Column(unique = true)
+    @NotEmpty(message = "The 'EMAIL' field cannot be empty or null!")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = "The 'POSITION' field cannot be empty or null!")
+    @Column(name = "position")
     private String position;
 
     @ManyToOne(cascade = CascadeType.ALL)

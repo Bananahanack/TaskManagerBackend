@@ -13,7 +13,7 @@ public interface EmployeeService {
 
     EmployeeDto getById(String id);
 
-    EmployeeDto create(EmployeeDto employeeDto);
+    EmployeeDto create(Employee employee);
 
     void delete(String id);
 

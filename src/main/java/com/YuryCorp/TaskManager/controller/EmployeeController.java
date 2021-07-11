@@ -3,13 +3,17 @@ package com.YuryCorp.TaskManager.controller;
 import com.YuryCorp.TaskManager.dto.EmployeeDto;
 import com.YuryCorp.TaskManager.model.Employee;
 import com.YuryCorp.TaskManager.service.EmployeeService;
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -28,6 +32,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/employees")
+@Validated
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -39,7 +44,7 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getAll() {
         List<EmployeeDto> employeeList = employeeService.getAll();
-        if(employeeList.isEmpty()){
+        if (employeeList.isEmpty()) {
             new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(employeeList, HttpStatus.OK);
@@ -48,18 +53,18 @@ public class EmployeeController {
     @GetMapping("{id}")
     public ResponseEntity<EmployeeDto> get(@PathVariable String id) {
         EmployeeDto employeeDto = employeeService.getById(id);
-        if(employeeDto == null){
+        if (employeeDto == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto employeeDto) {
-        if(employeeDto == null){
+    public ResponseEntity<EmployeeDto> create(@Valid @RequestBody Employee employee) {
+        if (employee == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(employeeService.create(employeeDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeService.create(employee), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
@@ -68,7 +73,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/count")
-    public long getCountOfEmployees(){
-        return employeeService.countOfEmployees();
+    public ResponseEntity<Long> getCountOfEmployees() {
+
+        //TODO wrap the response
+
+        return new ResponseEntity<>(employeeService.countOfEmployees(), HttpStatus.OK);
     }
 }

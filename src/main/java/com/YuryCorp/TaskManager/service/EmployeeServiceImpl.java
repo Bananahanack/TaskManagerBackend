@@ -40,12 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto getById(String id) {
         return employeeRepository.findById(id).map(this::entityToDto)
                 .orElseThrow(() -> new NotFoundException(id, "employee"));
-
     }
 
     @Override
-    public EmployeeDto create(EmployeeDto employeeDto) {
-        return entityToDto(employeeRepository.save(dtoToEntity(employeeDto)));
+    public EmployeeDto create(Employee employee) {
+        return entityToDto(employeeRepository.save(employee));
     }
 
     @Override

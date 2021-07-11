@@ -15,8 +15,8 @@ import java.time.LocalDate;
 
 @Entity
 public class Task extends AbstractEntity {
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = "The 'TASKNAME' field cannot be empty or null!")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "provided_time_in_hours")
@@ -29,7 +29,7 @@ public class Task extends AbstractEntity {
     private LocalDate finishDate;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotEmpty(message = "The 'STATUS' field cannot be empty or null!")
     private TaskStatus status;
 
     @ManyToOne
