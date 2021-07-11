@@ -18,6 +18,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * <p>Customised error response body, for the following exceptions:
+ * <ul>
+ *     <li> {@link DataIntegrityViolationException}</li>
+ *     <li> {@link NotFoundException}</li>
+ *     <li> {@link MethodArgumentNotValidException}</li>
+ * </ul>
+ * <p/>
  * @author Bananahanack
  */
 @ControllerAdvice

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
+ * Base class for the domains objects.
  * @author Bananahanack
  */
 @MappedSuperclass

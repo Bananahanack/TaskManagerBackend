@@ -6,7 +6,6 @@ import com.YuryCorp.TaskManager.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Request handler related with {@link Employee}
+ * Request handler related with {@link Employee}.
  *
  * <p>Supported requests:
  * <ul>
@@ -24,6 +23,7 @@ import java.util.Map;
  * <li>getting an Employee by identifier</li>
  * <li>creating new Employee</li>
  * <li>deleting Employee by identifier</li>
+ * <li>getting the total count of employees</li>
  * </ul>
  * </p>
  *
@@ -31,7 +31,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/employees")
-@Validated
 public class EmployeeController {
     private final EmployeeService employeeService;
 

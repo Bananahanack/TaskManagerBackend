@@ -1,6 +1,7 @@
 package com.YuryCorp.TaskManager.errors;
 
 /**
+ * Custom Exeption class. Customised {@link RuntimeException}.
  * @author Bananahanack
  */
 public class NotFoundException extends RuntimeException {

@@ -1,6 +1,7 @@
 package com.YuryCorp.TaskManager.dto;
 
 /**
+ * Simple Dto of the {@link com.YuryCorp.TaskManager.model.Employee} entity.
  * @author Bananahanack
  */
 public class EmployeeDto {

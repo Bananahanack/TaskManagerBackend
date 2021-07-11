@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 /**
+ * Custom ErrorResponse .
  * @author Bananahanack
  */
 public class CommonErrorResponse {
