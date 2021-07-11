@@ -3,18 +3,17 @@ package com.YuryCorp.TaskManager.controller;
 import com.YuryCorp.TaskManager.dto.EmployeeDto;
 import com.YuryCorp.TaskManager.model.Employee;
 import com.YuryCorp.TaskManager.service.EmployeeService;
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Request handler related with {@link Employee}
@@ -73,10 +72,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getCountOfEmployees() {
-
-        //TODO wrap the response
-
-        return new ResponseEntity<>(employeeService.countOfEmployees(), HttpStatus.OK);
+    public ResponseEntity<Object> getCountOfEmployees() {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("time", new Date());
+        body.put("count", employeeService.countOfEmployees());
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }
